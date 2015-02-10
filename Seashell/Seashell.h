@@ -18,6 +18,7 @@ public:
 private:
 	std::string cwd;
 	void findDirectory();
+	void findUpperDirectory(std::string s);
 
 };
 #endif

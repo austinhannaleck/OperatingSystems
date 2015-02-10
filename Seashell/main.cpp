@@ -12,7 +12,6 @@ int main()
 	std::getline(std::cin, input);
 	while(input != "e")
 	{
-		std::cout << input.substr(0,0) << std::endl;
 		if(input == "w")
 		{
 			s.wai();
@@ -28,9 +27,14 @@ int main()
 			s.help();
 		}
 
-		if(input.substr(0,1) == "d")
+		if(input.substr(0,1) == "d")//checks if first letter is d
 		{
-			s.down(input.substr(2));
+			s.down(input.substr(2));//reads desired change of directory after the space
+		}
+
+		if(input == "u")
+		{
+			s.up();
 		}
 
 		std::cout << "Seashell>";

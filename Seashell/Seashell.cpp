@@ -48,21 +48,26 @@ void Seashell::list()
 
 void Seashell::down(std::string s)
 {
-	std::cout << s << std::endl;
+	//makes a temporary string just in case directory is not valid
 	std::string temp = cwd;
 	temp += "/";
 	temp += s;
 
-	char myArray[temp.size()+1];
-	strcpy(myArray, temp.c_str());
 
-	std::cout << temp << std::endl;
-	chdir(myArray);
+	//std::cout << temp << std::endl;
+	if(chdir(temp.c_str()) == 0)
+	{
+		cwd = temp;
+	}
+	else
+	{
+		std::cout << "error! not a valid directory!" << std::endl;
+	}
 }
 
 void Seashell::up()
 {
-	//chdir();
+	findUpperDirectory(cwd);
 }
 
 void Seashell::wai()
@@ -90,4 +95,33 @@ void Seashell::findDirectory()
 	char buff[PATH_MAX];
 	cwd = getcwd(buff, PATH_MAX);
 
+}
+
+void Seashell::findUpperDirectory(std::string s)
+{
+	
+	if(s == "/home")
+	{
+		std::cout << "error! can't do that!" << std::endl;
+	}
+	else
+	{
+		for(int i = s.length(); i > 0; i--)
+	{
+		int pos = i-1;
+		std::string temp = s.substr(i-1, i);
+		if(temp.substr(0, 1) == "/")
+		{
+			s = s.substr(0, pos);
+			cwd = s;
+			chdir(cwd.c_str());
+			break;
+		}
+
+	}
+	}
+
+	
+
+	//std::cout << s << std::endl;
 }

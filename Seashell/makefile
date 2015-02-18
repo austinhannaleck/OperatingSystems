@@ -1,4 +1,4 @@
-PROGRAM = program_name
+PROGRAM = Seashell
 FILES = Seashell.cpp main.cpp
 
 all: run

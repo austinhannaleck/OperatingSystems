@@ -12,13 +12,13 @@ public:
 	void down(std::string s);//moves into specified child directory
 	void up();//moves to the parent directory
 	void wai();//shows current directory
+	void makeDir(std::string s);//creates a new directory
 	void help();//prints a list of supported commands
-	void exit();//exits the shell
 
 private:
-	std::string cwd;
-	void findDirectory();
-	void findUpperDirectory(std::string s);
+	std::string cwd;//stores current working directory
+	void findDirectory();//finds current directory upon start of program
+	void findUpperDirectory(std::string s);//finds directory above current dir
 
 };
 #endif

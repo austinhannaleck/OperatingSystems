@@ -10,31 +10,52 @@ int main()
 
 	std::string input;
 	std::getline(std::cin, input);
-	while(input != "e")
+	while(input != "e" && input != "exit")
 	{
-		if(input == "w")
+		if(input == "w" || input == "wai")
 		{
 			s.wai();
 		}
 
-		if(input == "l")
+		else if(input == "l" || input == "list")
 		{
 			s.list();
 		}
 		
-		if(input == "h")
+
+		else if((input.substr(0,1) == "d" && input.substr(1,1) == " ") || input.substr(0,4) == "down")//checks if first letter is d
 		{
-			s.help();
+			if(input.substr(0,4) == "down")
+			{
+				s.down(input.substr(5));
+			}
+			else
+			{
+				s.down(input.substr(2));//reads desired change of directory after the space
+			}
+			
 		}
 
-		if(input.substr(0,1) == "d")//checks if first letter is d
-		{
-			s.down(input.substr(2));//reads desired change of directory after the space
-		}
-
-		if(input == "u")
+		else if(input == "u" || input == "up")
 		{
 			s.up();
+		}
+		else if((input.substr(0, 1) == "m" && input.substr(1,1) == " ") || input.substr(0,7) == "makeDir")
+		{
+			
+			if(input.substr(0,7) == "makeDir")
+			{
+				s.makeDir(input.substr(8));
+			}
+			else
+			{
+				s.makeDir(input.substr(2));
+			}	
+		}
+
+		else
+		{
+			s.help();
 		}
 
 		std::cout << "Seashell>";

@@ -38,7 +38,10 @@ void Seashell::list()
 				{
 					std::cout << "\t(f) " << dirp->d_name << std::endl;
 				}
+<<<<<<< HEAD
 				
+=======
+>>>>>>> 41a1a0957aa5c35acdbf80a6f45ca211869eeb65
 			}
 			dirp = readdir(dp);
 		}
@@ -58,16 +61,38 @@ void Seashell::down(std::string s)
 	if(chdir(temp.c_str()) == 0)
 	{
 		cwd = temp;
+		std::cout << cwd << std::endl;
 	}
 	else
 	{
-		std::cout << "error! not a valid directory!" << std::endl;
+		std::cout << "Error! " << s << " is not directory!" << std::endl;
 	}
 }
 
 void Seashell::up()
 {
 	findUpperDirectory(cwd);
+	std::cout << cwd << std::endl;
+}
+
+void Seashell::makeDir(std::string s)
+{
+	std::string newDir = cwd;
+	newDir += "/";
+	newDir += s;
+
+	if(mkdir(newDir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0)
+	{
+		std::cout << "Directory succesfully created!" << std::endl;
+		chdir(newDir.c_str());
+		cwd = newDir;
+	}
+	else
+	{
+		std::cout << "Error, directory could not be created or it already exists" << std::endl;
+	}
+
+	std::cout << newDir << std::endl;
 }
 
 void Seashell::wai()
@@ -81,13 +106,9 @@ void Seashell::help()
 	std::cout << "(d)down [dir]: moves into the specified child directory" << std::endl;
 	std::cout << "(u)p: moves to the parent directory" << std::endl;
 	std::cout << "(w)ai: prints the current directory" << std::endl;
+	std::cout << "(m)akeDir [dir]: creates a new directory" << std::endl;
 	std::cout << "(e)xit: exits the shell" << std::endl;
 	std::cout << "(h)elp: prints a list of the supported commands" << std::endl;
-}
-
-void Seashell::exit()
-{
-
 }
 
 void Seashell::findDirectory()

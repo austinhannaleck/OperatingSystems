@@ -27,17 +27,17 @@ void Seashell::list()
 		{
 			if(std::string(dirp->d_name) != "." && std::string(dirp->d_name) != "..")
 			{
-				//stat(dirp, &fileStat);
-				//bool isDir = S_ISDIR(fileStat.st_mode);
-				//if(isDir == true)
-				//{
+				struct stat fileStat;
+				stat(dirp->d_name, &fileStat);
+				bool isDir = S_ISDIR(fileStat.st_mode);
+				if(isDir == true)
+				{
 					std::cout << "\t(d) " << dirp->d_name << std::endl;
-				//}
-				//else
-				//{
+				}
+				else
+				{
 					std::cout << "\t(f) " << dirp->d_name << std::endl;
-				//}
-				
+				}
 				
 			}
 			dirp = readdir(dp);
@@ -48,7 +48,7 @@ void Seashell::list()
 
 void Seashell::down(std::string s)
 {
-	//makes a temporary string just in case directory is not valid
+	//makes a temporary string in case directory is not valid
 	std::string temp = cwd;
 	temp += "/";
 	temp += s;
@@ -120,8 +120,4 @@ void Seashell::findUpperDirectory(std::string s)
 
 	}
 	}
-
-	
-
-	//std::cout << s << std::endl;
 }

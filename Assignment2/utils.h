@@ -5,8 +5,12 @@ class utils
 {
 
 public:
-	struct Point(int x, int y);
-	struct xyz();
+	struct Point
+	{
+		int x;
+		int y;
+	};
+	
 	int calculateDistance(Point a, Point b);
 
 private:

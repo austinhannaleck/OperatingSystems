@@ -1,16 +1,19 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include "utils.h"
+
 class Controller
 {
 
 public:
+	Controller();
 	Point getRefPoint();
 
 private:
-	Point allPoints[int size];
-	Point closestPoints[int n];
-	Point refPoint();
+	Point allPoints[];
+	Point closestPoints[];
+	Point refPoint;
 
 };
 #endif

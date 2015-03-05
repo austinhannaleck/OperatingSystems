@@ -11,7 +11,7 @@ public:
 	Point getRefPoint();
 
 private:
-	Point allPoints[];
+	Point * allPoints;
 	Point closestPoints[];
 	Point refPoint;
 

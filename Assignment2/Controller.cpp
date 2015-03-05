@@ -2,30 +2,40 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <wait.h>
-#include <sys/time.h>
-#include <time.h>
-
 #include <iostream>
-#include <fstream>
-#include <string>
 
 #include <stdlib.h>
+#include <math.h>
 
 #include "utils.h"
 #include "Controller.h"
-#include "Child.h"
 
 
 using namespace std;
 
+Point* generatePoints(const int& arraySize)
+{
+	Point * temp[arraySize];
+	for(int i = 0; i < arraySize; i++)
+	{
+		temp[i]->x = (int) rand % 100;//returns random number between 0 and 99
+		temp[i]->y = (int) rand % 100;
+
+		cout << temp[i]->x << endl;
+		cout << temp[i]->y << endl;
+	}
+
+	return * temp;
+}
+
 Controller::Controller()  
 {
-
+	allPoints = generatePoints(10);
 }
 
 Point Controller::getRefPoint()
 {
-	return Controller::refPoint;
+	return refPoint;
 }
 
 void forkChild(const string& num)
@@ -41,16 +51,43 @@ void forkChild(const string& num)
 
 	if(pid == 0)
 	{
-		execl("./Child.out", "Child.out", num.c_str(), NULL);
+		execl("./Child.o", "Child.o", num.c_str(), NULL);
 		cout << "Error calling execl" << endl;
 	}
 }
 
-int main()
+void getUserInput()
 {
 	int x, y;
 	
 	cout << "Enter the X position of your point: ";
+	cin >> x;
 	cout << "\nEnter the Y position of your point: ";
+	cin >> y;
+
+	cout << "Your point is " << x << " " << y << endl; 
+
+	refPoint.x = x;
+	refPoint.y = y;
+}
+
+int main()
+{
+
+	//Controller c;
+
+	// int x, y;
+	
+	// cout << "Enter the X position of your point: ";
+	// cin >> x;
+	// cout << "\nEnter the Y position of your point: ";
+	// cin >> y;
+
+	// cout << "Your point is " << x << " " << y << endl; 
+
+	// refPoint->x = x;
+	// refPoint->y = y;
+
+	
 }
 

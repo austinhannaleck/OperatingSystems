@@ -5,12 +5,6 @@
 
 using namespace std;
 
-// utils::Point(int a, int b)
-// {
-// 	x = a;
-// 	y = b;
-// }
-
 int utils::calculateDistance(Point a, Point b)
 {
 	int result = 0;

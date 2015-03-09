@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 
+
 #include <stdlib.h>
 
 using namespace std;
@@ -33,7 +34,7 @@ void forkChild(const string& num)
 
 	if(pid == 0)
 	{
-		execl("./findPrimes.out", "findPrimes.out", num.c_str(), NULL);
+		execl("./findPrimes.out", "findPrimes.out", (char)num, NULL);
 		cout << "Error calling execl" << endl;
 	}
 }

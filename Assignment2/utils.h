@@ -7,10 +7,19 @@ struct Point
 	int y;
 };
 
+struct package
+	{
+		int numPoints;
+		Point ref;
+		Point * points;
+		Point closest;
+	};
+
+int calculateDistance(Point a, Point b);
+
 class utils
 {
 public:
-	int calculateDistance(Point a, Point b);
 
 private:
 

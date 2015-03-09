@@ -9,11 +9,18 @@ class Controller
 public:
 	Controller();
 	Point getRefPoint();
+	Point* getAllPoints();
+	Point* calculatePoints(int& process);
+	
+	Point closestPoints[100];
+	
+	void getUserInput();
+	void generatePoints();
 
 private:
-	Point * allPoints;
-	Point closestPoints[];
 	Point refPoint;
+	Point allPoints[10];
+	
 
 };
 #endif

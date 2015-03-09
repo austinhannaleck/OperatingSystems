@@ -21,7 +21,7 @@ using namespace std;
 
 void Controller::generatePoints()
 {
-	for(int i = 0; i < 100; i++)
+	for(int i = 0; i < 10; i++)
 	{
 		allPoints[i].x = (int) rand() % 100;//returns random number between 0 and 99
 		allPoints[i].y = (int) rand() % 100;
@@ -80,14 +80,14 @@ void Controller::getUserInput()
 	cout << "Your point is " << refPoint.x << " " << refPoint.y << endl; 
 }
 
-Point temp[0];
+Point temp[1];
 
 Point* Controller::calculatePoints(int& process)
 {
 
-	for(int i = 0; i < 100; i++)
+	for(int i = 0; i < 10; i++)
 	{
-		temp[i] = allPoints[process];
+		temp[0] = allPoints[process];
 	}
 
 	cout << "COPIED VALUES" << endl;
@@ -102,28 +102,23 @@ int main()
 	c.getUserInput();
 
 	//create a shared structure and seg_id for each process
-	package shared[100];
-	int segment_id[100];
+	package shared[10];
+	int segment_id[10];
 	package * pBuff = NULL;
 	int size = sizeof(shared[0]);
-		//cout << "SIZE OF " << sizeof(size) << "." << endl;
 
 	//create spot in shared memory, and write data
-	for(int i = 0; i < 100; i++)
+	for(int i = 0; i < 10; i++)
 	{
 		segment_id[i] = shmget(IPC_PRIVATE, size, S_IRUSR | S_IWUSR);
 		pBuff = (package *) shmat(segment_id[i], NULL, 0);
-		pBuff->numPoints = 100;
+		pBuff->numPoints = 10;
 		pBuff->ref.x = c.getRefPoint().x;
 		pBuff->ref.y = c.getRefPoint().y;
-		pBuff->points = c.calculatePoints(i);
+		//pBuff->points = c.calculatePoints(i);
 
 		char arg[10];
 		sprintf(arg, "%d", segment_id[i]);//arg contains segment id
 		forkChild(arg);
 	}
-	// char * pBuff = NULL;
-	// const int size = 20;
-
-	
 }

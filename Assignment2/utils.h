@@ -11,7 +11,7 @@ struct package
 	{
 		int numPoints;
 		Point ref;
-		Point * points;
+		Point points[1];
 		Point closest;
 	};
 

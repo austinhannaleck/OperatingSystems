@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 	double distance = numeric_limits<double>::max();
 	Point smallest;
 
-	for(int i = 0; i < 5000; i++)
+	for(int i = 0; i < 100; i++)
 	{
 		double test = utils::calculateDistance(pBuff->points[i], pBuff->ref);
 		//cout << pBuff->points[i].x << " " << pBuff->points[i].y << endl;

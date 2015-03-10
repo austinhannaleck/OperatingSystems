@@ -31,8 +31,8 @@ void Controller::generatePoints()
 {
 	for(int i = 0; i < 500000; i++)
 	{
-		allPoints[i].x = (int) rand() % 100;//returns random number between 0 and 99
-		allPoints[i].y = (int) rand() % 100;
+		allPoints[i].x = (int) rand() % 1000;//returns random number between 0 and 99
+		allPoints[i].y = (int) rand() % 1000;
 
 		//cout << allPoints[i].x << " " << allPoints[i].y << endl;
 	}
@@ -91,11 +91,13 @@ void Controller::getUserInput()
 void Controller::calculatePoints(int& process, package * pBuff, int& c)
 {
 	int z = process;
-	//cout << z << endl;
-	for(int i = (z*5000); i < pBuff->numPoints; i++)
+	cout << z << endl;
+	for(int i = (z*5000); i < ((pBuff->numPoints) * z) + 4999; i++)
 	{
 		
 		pBuff->points[c] = allPoints[i];
+		//cout << pBuff->points[c].x << " " << pBuff->points[c].y << endl;
+		//cout << allPoints[i].x << " " << allPoints[i].y << endl;
 		c++;
 	}
 }

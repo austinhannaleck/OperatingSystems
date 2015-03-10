@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int calculateDistance(Point a, Point b)
+int utils::calculateDistance(Point a, Point b)
 {
 	int result = 0;
 

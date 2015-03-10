@@ -10,7 +10,7 @@ public:
 	Controller();
 	Point getRefPoint();
 	Point* getAllPoints();
-	Point* calculatePoints(int& process);
+	void calculatePoints(int& process, package * pBuff, int& c);
 	
 	Point closestPoints[100];
 	
@@ -19,7 +19,7 @@ public:
 
 private:
 	Point refPoint;
-	Point allPoints[10];
+	Point allPoints[500000];
 	
 
 };

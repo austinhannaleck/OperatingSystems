@@ -12,6 +12,7 @@
 
 #include <cstring>
 #include <string>
+#include <limits>
 
 #include "utils.h"
 #include "Controller.h"
@@ -19,14 +20,21 @@
 
 using namespace std;
 
+double utils::calculateDistance(Point a, Point b)
+{
+	int result = 0;
+
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
+}
+
 void Controller::generatePoints()
 {
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 500000; i++)
 	{
 		allPoints[i].x = (int) rand() % 100;//returns random number between 0 and 99
 		allPoints[i].y = (int) rand() % 100;
 
-		cout << allPoints[i].x << " " << allPoints[i].y << endl;
+		//cout << allPoints[i].x << " " << allPoints[i].y << endl;
 	}
 }
 
@@ -77,23 +85,19 @@ void Controller::getUserInput()
 	refPoint.x = x;
 	refPoint.y = y;
 
-	cout << "Your point is " << refPoint.x << " " << refPoint.y << endl; 
+	//cout << "Your point is " << refPoint.x << " " << refPoint.y << endl; 
 }
 
-Point temp[1];
-
-Point* Controller::calculatePoints(int& process)
+void Controller::calculatePoints(int& process, package * pBuff, int& c)
 {
-
-	for(int i = 0; i < 10; i++)
+	int z = process;
+	//cout << z << endl;
+	for(int i = (z*5000); i < pBuff->numPoints; i++)
 	{
-		temp[0] = allPoints[process];
+		
+		pBuff->points[c] = allPoints[i];
+		c++;
 	}
-
-	cout << "COPIED VALUES" << endl;
-	cout << temp[0].x << " " << temp[0].y << endl;;
-
-	return temp;
 }
 
 int main()
@@ -103,22 +107,52 @@ int main()
 
 	//create a shared structure and seg_id for each process
 	package shared[10];
-	int segment_id[10];
+	int segment_id[100];
 	package * pBuff = NULL;
 	int size = sizeof(shared[0]);
 
 	//create spot in shared memory, and write data
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 100; i++)
 	{
 		segment_id[i] = shmget(IPC_PRIVATE, size, S_IRUSR | S_IWUSR);
 		pBuff = (package *) shmat(segment_id[i], NULL, 0);
-		pBuff->numPoints = 10;
+		pBuff->numPoints = 5000;
 		pBuff->ref.x = c.getRefPoint().x;
 		pBuff->ref.y = c.getRefPoint().y;
-		//pBuff->points = c.calculatePoints(i);
+		int count(0);
+		c.calculatePoints(i, pBuff, count);
 
 		char arg[10];
 		sprintf(arg, "%d", segment_id[i]);//arg contains segment id
 		forkChild(arg);
+		wait(NULL);
 	}
+
+	//add points to closest, then calculate closest point
+	for(int i = 0; i < 100; i++)
+	{
+		package * pBuff = (package *) shmat(segment_id[i], NULL, 0);
+
+		c.closestPoints[i] = pBuff->closest;
+
+		//cout << c.closestPoints[i].x << " " << c.closestPoints[i].y << endl;
+	}
+
+	//calculate closest point
+	double distance = numeric_limits<double>::max();
+	Point smallest;
+
+	for(int i = 0; i < 100; i++)
+	{
+		double test = utils::calculateDistance(c.closestPoints[i], c.getRefPoint());
+		if(test < distance)
+		{
+			distance = test;
+			smallest = c.closestPoints[i];
+		}
+	}
+
+	cout << "The closest point is " << smallest.x << " " << smallest.y <<
+		" with a distance of " << distance << endl;
+
 }

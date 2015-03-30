@@ -29,12 +29,13 @@ double utils::calculateDistance(Point a, Point b)
 
 void Controller::generatePoints()
 {
+	cout << "Generating random points..." << endl;
+	srand(time(0));
 	for(int i = 0; i < 500000; i++)
 	{
-		allPoints[i].x = (int) rand() % 1000;//returns random number between 0 and 99
+		//returns random number between 0 and 99
+		allPoints[i].x = (int) rand() % 1000;
 		allPoints[i].y = (int) rand() % 1000;
-
-		//cout << allPoints[i].x << " " << allPoints[i].y << endl;
 	}
 }
 
@@ -75,29 +76,27 @@ void Controller::getUserInput()
 {
 	int x, y;
 	
-	cout << "Enter the X position of your point: ";
+	cout << "\nThis program finds the point closest to a user made point" <<
+		"on a 1000x1000 grid." << endl;
+
+	cout << "\nEnter the X coordinate of your point: ";
 	cin >> x;
-	cout << "Enter the Y position of your point: ";
+	cout << "Enter the Y coordinate of your point: ";
 	cin >> y;
 
 	
 
 	refPoint.x = x;
 	refPoint.y = y;
-
-	//cout << "Your point is " << refPoint.x << " " << refPoint.y << endl; 
 }
 
 void Controller::calculatePoints(int& process, package * pBuff, int& c)
 {
 	int z = process;
-	cout << z << endl;
 	for(int i = (z*5000); i < ((pBuff->numPoints) * z) + 4999; i++)
 	{
 		
 		pBuff->points[c] = allPoints[i];
-		//cout << pBuff->points[c].x << " " << pBuff->points[c].y << endl;
-		//cout << allPoints[i].x << " " << allPoints[i].y << endl;
 		c++;
 	}
 }
@@ -130,14 +129,12 @@ int main()
 		wait(NULL);
 	}
 
-	//add points to closest, then calculate closest point
+	//add the 100 points to closest[]
 	for(int i = 0; i < 100; i++)
 	{
 		package * pBuff = (package *) shmat(segment_id[i], NULL, 0);
 
 		c.closestPoints[i] = pBuff->closest;
-
-		//cout << c.closestPoints[i].x << " " << c.closestPoints[i].y << endl;
 	}
 
 	//calculate closest point

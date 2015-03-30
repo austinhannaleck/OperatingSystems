@@ -24,9 +24,6 @@ int main(int argc, char * argv[])
 
 	int segment_id  = atoi(argv[1]);//gets segment id
 	package * pBuff = (package *) shmat(segment_id, NULL, 0);//casts segment id as char*, so process finds shared memory
-	//cout << "Child seg id is " << segment_id << endl;
-	//cout << "Reference point is " << pBuff->ref.x << " " << pBuff->ref.y << endl;
-	//cout << "Child process id is " << pBuff->points[0].x << " " << pBuff->points[0].y << endl;
 
 	double distance = numeric_limits<double>::max();
 	Point smallest;
@@ -34,7 +31,7 @@ int main(int argc, char * argv[])
 	for(int i = 0; i < 100; i++)
 	{
 		double test = utils::calculateDistance(pBuff->points[i], pBuff->ref);
-		//cout << pBuff->points[i].x << " " << pBuff->points[i].y << endl;
+
 		if(test < distance)
 		{
 			distance = test;
@@ -42,11 +39,10 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	cout << "final distance is " << distance << endl;
-
+	//write 'smallest'(closest point) to memory
 	pBuff->closest = smallest;
 
-	//write 'smallest' to memory
+	
 
 
 

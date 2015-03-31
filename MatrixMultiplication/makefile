@@ -14,7 +14,7 @@ zip:
 	zip $(PROGRAM).zip *.cpp *.h makefile
 
 build:
-	g++ -std=c++11 $(FILES) -o $(PROGRAM).o
+	g++ -std=c++11 $(FILES) -o $(PROGRAM).o -pthread
     
 clean:
 	rm -f *.zip

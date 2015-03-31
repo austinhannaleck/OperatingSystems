@@ -1,5 +1,5 @@
 PROGRAM = MatrixMultiplication
-FILES = Matrix.cpp main.cpp
+FILES = Matrix.cpp FileReader.cpp main.cpp
 
 all: run
 run: zip

@@ -49,7 +49,7 @@ Matrix::Matrix(const string& file)
 
 			for(int j = 0; j < numbers.size(); j++)
 			{
-				cout << numbers.at(j);
+				//cout << numbers.at(j);
 				newRow.push_back(atoi(numbers.at(j).c_str()));
 			}
 

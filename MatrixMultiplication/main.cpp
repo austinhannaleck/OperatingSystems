@@ -6,7 +6,6 @@
 
 using namespace std;
 
-//create threads code
 
 Matrix matrix1();
 Matrix matrix2();
@@ -25,7 +24,7 @@ void * doSomething(void * info)//void can take any parameter, return any type
 	Matrix b = pMatrices->m2;
 	Matrix c = pMatrices->result;
 
-	int index = pthread_self();
+	int index = pthread_self();//doesnt return actual thread id
 
 	cout << pthread_self() << endl;
 	int sum = 0;
@@ -38,7 +37,8 @@ void * doSomething(void * info)//void can take any parameter, return any type
 
 		if(i == (a.getRows()-1))
 		{
-			c.set(index, something, sum);
+			//cout << sum << endl;
+			c.set(index, (i%a.getRows()), sum);
 		}
 	}
 	
@@ -70,6 +70,8 @@ Matrix addMatrices(Matrix ma1, Matrix ma2)
 	{
 		cout << "Matrices cannot be added together" << endl;
 	}
+
+	return matrices.result;
 }
 
 int main()
@@ -90,10 +92,14 @@ int main()
 	// 	<< input2 << endl;
 
 	Matrix m("matrix1.txt");//input1
+	Matrix n("matrix2.txt");
 
-	int test = m.get(1, 0);
+	Matrix r = addMatrices(m, n);
+	//r.printToFile();
 
-	cout << test << endl;
+	//int test = m.get(1, 0);
+
+	//cout << test << endl;
 
 
 

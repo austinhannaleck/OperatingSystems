@@ -61,20 +61,6 @@ Matrix::Matrix(const string& file)
 	}
 }
 
-void Matrix::printToFile()
-{
-	ofstream outputFile("MatrixTotal.txt");
-
-	// for(int i = 0; i < imageData.size(); i++)
-	// {
-	// 	//print contents of matrix (values[][]) to a text file
-	// 	//outputFile << imageData.at(i) << endl;
-	// }
-
-	outputFile.close();
-
-}
-
 int Matrix::get(int row, int column)
 {
 	int temp = 0;
@@ -97,6 +83,21 @@ int Matrix::getRows()
 int Matrix::getColumns()
 {
 	return columns;
+}
+
+void Matrix::printToFile()
+{
+	ofstream outputFile("MatrixTotal.txt");
+
+	outputFile << getRows() << ", " << getColumns() << endl;
+	// for(int i = 0; i < imageData.size(); i++)
+	// {
+	// 	//print contents of matrix (values[][]) to a text file
+	// 	//outputFile << imageData.at(i) << endl;
+	// }
+
+	outputFile.close();
+
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& m)

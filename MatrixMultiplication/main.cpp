@@ -15,6 +15,7 @@ struct Matrices
 	Matrix m1;
 	Matrix m2;
 	Matrix result;
+	int id;
 };
 
 void * doSomething(void * info)//void can take any parameter, return any type
@@ -24,9 +25,11 @@ void * doSomething(void * info)//void can take any parameter, return any type
 	Matrix b = pMatrices->m2;
 	Matrix c = pMatrices->result;
 
-	int index = pthread_self();//doesnt return actual thread id
+	cout << (a.getRows() * b.getColumns()) << endl;
 
-	cout << pthread_self() << endl;
+	int index = pMatrices->id;//doesnt return actual thread id
+
+	cout << index << endl;
 	int sum = 0;
 
 	for(int i = 0; i < a.getRows(); i++)
@@ -48,20 +51,28 @@ void * doSomething(void * info)//void can take any parameter, return any type
 
 Matrix addMatrices(Matrix ma1, Matrix ma2)
 {
-
 	Matrices matrices;
-	matrices.m1 = ma1;
-	matrices.m2 = ma2;
+	// Matrices matrices;
+	// matrices.m1 = ma1;
+	// matrices.m2 = ma2;
 	if(ma1.getRows() == ma2.getColumns())
 	{
 		// will have m1 rows and m2 columns
 		// Matrix result();
 
-		for(int i = 0; i < (ma1.getRows() * ma1.getColumns()); i++)
+		cout << (ma1.getRows() * ma2.getColumns()) << endl;
+
+		for(int i = 0; i < (ma1.getRows() * ma2.getColumns()); i++)
 		{
+
 			pthread_attr_t attr;
 			pthread_attr_init(&attr);
 			pthread_t tid = i;
+
+			//Matrices matrices;
+			matrices.m1 = ma1;
+			matrices.m2 = ma2;
+			matrices.id = i;
 
 			pthread_create(&tid, &attr, doSomething, &matrices);
 		}
@@ -95,7 +106,7 @@ int main()
 	Matrix n("matrix2.txt");
 
 	Matrix r = addMatrices(m, n);
-	//r.printToFile();
+	r.printToFile();
 
 	//int test = m.get(1, 0);
 

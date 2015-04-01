@@ -19,7 +19,11 @@ vector<string> split(const string& str, const string& sep)
     return arr;
 }
 
-Matrix::Matrix(){};
+Matrix::Matrix()
+{
+	rows = 0;
+	columns = 0;
+};
 
 Matrix::Matrix(const string& file)
 {

@@ -17,6 +17,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 	int getRows();
 	int getColumns();
+	//do setRows, setColumns
 	//operator overload -> cout to print matrix
 
 private:

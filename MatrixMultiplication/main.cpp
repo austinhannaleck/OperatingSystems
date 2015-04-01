@@ -29,10 +29,13 @@ void * addMatrices(void * info)//void can take any parameter, return any type
 
 	int index = pMatrices->id;
 
-	cout << index << endl;
+	//should print 0-3, but sometimes it doesnt print anything or prints
+	//"random" numbers (usually '2' or '3')
+	//cout << index << endl; 
 
-	//cout << index << endl;
-	// int sum = 0;
+
+	//code below for calculating resulting matrix
+	
 
 	// for(int i = 0; i < a.getRows(); i++)
 	// {
@@ -69,7 +72,7 @@ int main()
 	// 	<< input2 << endl;
 
 	Matrix ma1("matrix1.txt");//input1
-	Matrix ma2("matrix2.txt");
+	Matrix ma2("matrix2.txt");//input2
 
 	Matrices matrices;
 	matrices.m1 = ma1;
@@ -86,11 +89,11 @@ int main()
 			pthread_attr_init(&attr);
 			pthread_t tid = i;
 
-			matrices.id = i;
+			matrices.id = i;//
 
 			pthread_create(&tid, &attr, addMatrices, &matrices);
 
-			cout << "i is " << i << endl;
+			cout << "i is " << matrices.id << endl;//this works
 		}
 	}
 	else
@@ -100,10 +103,6 @@ int main()
 
 	//Matrix r = addMatrices(m, n);
 	matrices.result.printToFile();
-
-	//int test = m.get(1, 0);
-
-	//cout << test << endl;
 
 
 

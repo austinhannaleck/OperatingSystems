@@ -89,16 +89,42 @@ int Matrix::getColumns()
 	return columns;
 }
 
+void Matrix::setDimensions(int r, int c)//only to be used with first constructor
+{
+	rows = r;
+	columns = c;
+
+	// for(int i = 0; i < r; r++)
+	// {
+	// 	vector<int> row;
+	// 	for(int j = 0; j < c; c++)
+	// 	{
+	// 		row.push_back(0);
+	// 	}
+
+	// 	values.push_back(row);
+	// }
+
+}
+
 void Matrix::printToFile()
 {
 	ofstream outputFile("MatrixTotal.txt");
 
 	outputFile << getRows() << ", " << getColumns() << endl;
-	// for(int i = 0; i < imageData.size(); i++)
-	// {
-	// 	//print contents of matrix (values[][]) to a text file
-	// 	//outputFile << imageData.at(i) << endl;
-	// }
+	for(int i = 0; i < getRows(); i++)
+	{
+		for(int j = 0; j < getColumns(); j++)
+		{
+			outputFile << values[i][j];
+			if(j < getColumns()-1)
+			{
+				outputFile << ", ";
+			}
+		}
+
+		outputFile << endl;
+	}
 
 	outputFile.close();
 

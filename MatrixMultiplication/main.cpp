@@ -6,15 +6,12 @@
 
 using namespace std;
 
-
-Matrix matrix1();
-Matrix matrix2();
+Matrix total;
 
 struct Matrices
 {
 	Matrix m1;
 	Matrix m2;
-	Matrix result;
 	int id;
 };
 
@@ -23,7 +20,7 @@ void * addMatrices(void * info)//void can take any parameter, return any type
 	Matrices * pMatrices = (Matrices *) info;
 	Matrix a = pMatrices->m1;
 	Matrix b = pMatrices->m2;
-	Matrix c = pMatrices->result;
+	//Matrix c = pMatrices->result;
 
 	//cout << a.getRows() << endl;
 
@@ -31,7 +28,7 @@ void * addMatrices(void * info)//void can take any parameter, return any type
 
 	//should print 0-3, but sometimes it doesnt print anything or prints
 	//"random" numbers (usually '2' or '3')
-	//cout << index << endl; 
+	cout << index << endl; 
 
 
 	//code below for calculating resulting matrix
@@ -74,22 +71,25 @@ int main()
 	Matrix ma1("matrix1.txt");//input1
 	Matrix ma2("matrix2.txt");//input2
 
-	Matrices matrices;
-	matrices.m1 = ma1;
-	matrices.m2 = ma2;
+	//set dimensions of total
+	total.setDimensions(ma1.getRows(), ma2.getColumns());
+
 	if(ma1.getRows() == ma2.getColumns())
 	{
 		// will have m1 rows and m2 columns
-		// Matrix result();
 
 		for(int i = 0; i < (ma1.getRows() * ma2.getColumns()); i++)
 		{
+			Matrices matrices;
+			matrices.m1 = ma1;
+			matrices.m2 = ma2;
+			matrices.id = i;
 
 			pthread_attr_t attr;
 			pthread_attr_init(&attr);
 			pthread_t tid = i;
 
-			matrices.id = i;//
+			
 
 			pthread_create(&tid, &attr, addMatrices, &matrices);
 
@@ -101,8 +101,7 @@ int main()
 		cout << "Matrices cannot be added together" << endl;
 	}
 
-	//Matrix r = addMatrices(m, n);
-	matrices.result.printToFile();
+	//total.printToFile();
 
 
 

@@ -18,71 +18,37 @@ struct Matrices
 	int id;
 };
 
-void * doSomething(void * info)//void can take any parameter, return any type
+void * addMatrices(void * info)//void can take any parameter, return any type
 {
 	Matrices * pMatrices = (Matrices *) info;
 	Matrix a = pMatrices->m1;
 	Matrix b = pMatrices->m2;
 	Matrix c = pMatrices->result;
 
-	cout << (a.getRows() * b.getColumns()) << endl;
+	//cout << a.getRows() << endl;
 
-	int index = pMatrices->id;//doesnt return actual thread id
+	int index = pMatrices->id;
 
 	cout << index << endl;
-	int sum = 0;
 
-	for(int i = 0; i < a.getRows(); i++)
-	{
-		int num = a.get(index, i) * b.get(i, index);
+	//cout << index << endl;
+	// int sum = 0;
 
-		sum = sum + num;
+	// for(int i = 0; i < a.getRows(); i++)
+	// {
+	// 	int num = a.get(index, i) * b.get(i, index);
 
-		if(i == (a.getRows()-1))
-		{
-			//cout << sum << endl;
-			c.set(index, (i%a.getRows()), sum);
-		}
-	}
+	// 	sum = sum + num;
+
+	// 	if(i == (a.getRows()-1))
+	// 	{
+	// 		//cout << sum << endl;
+	// 		c.set(index, (i%a.getRows()), sum);
+	// 	}
+	// }
 	
 	
 	return NULL;
-}
-
-Matrix addMatrices(Matrix ma1, Matrix ma2)
-{
-	Matrices matrices;
-	// Matrices matrices;
-	// matrices.m1 = ma1;
-	// matrices.m2 = ma2;
-	if(ma1.getRows() == ma2.getColumns())
-	{
-		// will have m1 rows and m2 columns
-		// Matrix result();
-
-		cout << (ma1.getRows() * ma2.getColumns()) << endl;
-
-		for(int i = 0; i < (ma1.getRows() * ma2.getColumns()); i++)
-		{
-
-			pthread_attr_t attr;
-			pthread_attr_init(&attr);
-			pthread_t tid = i;
-
-			//Matrices matrices;
-			matrices.m1 = ma1;
-			matrices.m2 = ma2;
-			matrices.id = i;
-
-			pthread_create(&tid, &attr, doSomething, &matrices);
-		}
-	}
-	else
-	{
-		cout << "Matrices cannot be added together" << endl;
-	}
-
-	return matrices.result;
 }
 
 int main()
@@ -102,11 +68,38 @@ int main()
 	// cout << "\nYour first file is " << input1 << " and your second file is " 
 	// 	<< input2 << endl;
 
-	Matrix m("matrix1.txt");//input1
-	Matrix n("matrix2.txt");
+	Matrix ma1("matrix1.txt");//input1
+	Matrix ma2("matrix2.txt");
 
-	Matrix r = addMatrices(m, n);
-	r.printToFile();
+	Matrices matrices;
+	matrices.m1 = ma1;
+	matrices.m2 = ma2;
+	if(ma1.getRows() == ma2.getColumns())
+	{
+		// will have m1 rows and m2 columns
+		// Matrix result();
+
+		for(int i = 0; i < (ma1.getRows() * ma2.getColumns()); i++)
+		{
+
+			pthread_attr_t attr;
+			pthread_attr_init(&attr);
+			pthread_t tid = i;
+
+			matrices.id = i;
+
+			pthread_create(&tid, &attr, addMatrices, &matrices);
+
+			cout << "i is " << i << endl;
+		}
+	}
+	else
+	{
+		cout << "Matrices cannot be added together" << endl;
+	}
+
+	//Matrix r = addMatrices(m, n);
+	matrices.result.printToFile();
 
 	//int test = m.get(1, 0);
 

@@ -38,8 +38,8 @@ Matrix::Matrix(const string& file)
 			rows = atoi(dimensions.at(0).c_str());
 			columns = atoi(dimensions.at(1).c_str());
 
-			cout << "\nthere are " << rows << " rows" << endl;
-			cout << "there are " << columns << " columns" << endl;
+			//cout << "\nthere are " << rows << " rows" << endl;
+			//cout << "there are " << columns << " columns" << endl;
 		}
 		else
 		{

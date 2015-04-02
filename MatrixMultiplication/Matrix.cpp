@@ -58,7 +58,6 @@ Matrix::Matrix(const string& file)
 			}
 
 			values.push_back(newRow);
-			cout << endl;
 		}
 
 		count++;
@@ -94,16 +93,18 @@ void Matrix::setDimensions(int r, int c)//only to be used with first constructor
 	rows = r;
 	columns = c;
 
-	// for(int i = 0; i < r; r++)
-	// {
-	// 	vector<int> row;
-	// 	for(int j = 0; j < c; c++)
-	// 	{
-	// 		row.push_back(0);
-	// 	}
+	for(int i = 0; i < r; i++)
+	{
+		vector<int> row;
+		
+		for(int j = 0; j < c; j++)
+		{
+			//cout << j << endl;
+			row.push_back(0);
+		}
 
-	// 	values.push_back(row);
-	// }
+		values.push_back(row);
+	}
 
 }
 
@@ -114,8 +115,10 @@ void Matrix::printToFile()
 	outputFile << getRows() << ", " << getColumns() << endl;
 	for(int i = 0; i < getRows(); i++)
 	{
+		//cout << i << endl;
 		for(int j = 0; j < getColumns(); j++)
 		{
+			//cout << values.at(i).at(j) << endl;
 			outputFile << values[i][j];
 			if(j < getColumns()-1)
 			{
@@ -128,15 +131,4 @@ void Matrix::printToFile()
 
 	outputFile.close();
 
-}
-
-std::ostream& operator<<(std::ostream& os, const Matrix& m)
-{
-	// for (vector<string>::const_iterator it = m.values.cbegin(); 
-	// 		it!=m.values.cend(); it++)
-	// {
-	// 	os << *it << " ";
-	// }
-	// os << endl;
-	return os;
 }

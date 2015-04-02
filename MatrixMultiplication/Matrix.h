@@ -14,7 +14,6 @@ public:
 	void printToFile();
 	int get(int row, int column);
 	void set(int row, int column, int value);
-	friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 	int getRows();
 	int getColumns();
 	void setDimensions(int r, int c);

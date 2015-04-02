@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <pthread.h>
+#include <cmath>
 
 using namespace std;
 
@@ -12,7 +13,8 @@ struct Matrices
 {
 	Matrix m1;
 	Matrix m2;
-	int id;
+	int i;
+	int j;
 };
 
 void * addMatrices(void * info)//void can take any parameter, return any type
@@ -20,33 +22,30 @@ void * addMatrices(void * info)//void can take any parameter, return any type
 	Matrices * pMatrices = (Matrices *) info;
 	Matrix a = pMatrices->m1;
 	Matrix b = pMatrices->m2;
-	//Matrix c = pMatrices->result;
 
-	//cout << a.getRows() << endl;
+	int indexI = pMatrices->i;
+	int indexJ = pMatrices->j;
 
-	int index = pMatrices->id;
 
-	//should print 0-3, but sometimes it doesnt print anything or prints
-	//"random" numbers (usually '2' or '3')
-	cout << index << endl; 
-
+	//cout << "index is " << indexI << endl; 
 
 	//code below for calculating resulting matrix
 	
+	int sum = 0;
 
-	// for(int i = 0; i < a.getRows(); i++)
-	// {
-	// 	int num = a.get(index, i) * b.get(i, index);
 
-	// 	sum = sum + num;
+	for(int i = 0; i < a.getColumns(); i++)
+	{
 
-	// 	if(i == (a.getRows()-1))
-	// 	{
-	// 		//cout << sum << endl;
-	// 		c.set(index, (i%a.getRows()), sum);
-	// 	}
-	// }
-	
+
+		
+		int num = a.get(indexI, i) * b.get(i, indexJ);
+		sum = sum + num;
+		
+		//cout << sum << endl;
+		total.set(indexI, indexJ, sum);
+		
+	}
 	
 	return NULL;
 }
@@ -59,50 +58,49 @@ int main()
 	cout << "Welcome to the matrix multipler!" << endl 
 		<< "\nPlease enter the name of your first matrix: ";
 
-	// cin >> input1;
+	cin >> input1;
 
-	// cout << "Please enter the name of your second matrix: ";
+	cout << "Please enter the name of your second matrix: ";
 
-	// cin >> input2;
+	cin >> input2;
 
-	// cout << "\nYour first file is " << input1 << " and your second file is " 
-	// 	<< input2 << endl;
-
-	Matrix ma1("matrix1.txt");//input1
-	Matrix ma2("matrix2.txt");//input2
+	Matrix ma1(input1);//input1
+	Matrix ma2(input2);//input2
 
 	//set dimensions of total
 	total.setDimensions(ma1.getRows(), ma2.getColumns());
 
-	if(ma1.getRows() == ma2.getColumns())
+	if(ma1.getColumns() == ma2.getRows())
 	{
-		// will have m1 rows and m2 columns
-
-		for(int i = 0; i < (ma1.getRows() * ma2.getColumns()); i++)
+		cout << "\nCalculating total..." << endl;
+		for(int i = 0; i < total.getRows(); i++)
 		{
-			Matrices matrices;
-			matrices.m1 = ma1;
-			matrices.m2 = ma2;
-			matrices.id = i;
 
-			pthread_attr_t attr;
-			pthread_attr_init(&attr);
-			pthread_t tid = i;
+			for(int j = 0; j < total.getColumns(); j++)
+			{
+				Matrices matrices;;
+				matrices.m1 = ma1;
+				matrices.m2 = ma2;
+				matrices.i = i;
+				matrices.j = j;
 
+				pthread_attr_t attr;
+				pthread_attr_init(&attr);
+				pthread_t tid;
+
+				pthread_create(&tid, &attr, addMatrices, &matrices);
+				pthread_join(tid, NULL);
+			}
 			
-
-			pthread_create(&tid, &attr, addMatrices, &matrices);
-
-			cout << "i is " << matrices.id << endl;//this works
 		}
+
+		total.printToFile();
+
+		cout << "Total printed to 'MatrixTotal.txt'" << endl; 
 	}
 	else
 	{
 		cout << "Matrices cannot be added together" << endl;
 	}
-
-	//total.printToFile();
-
-
 
 }

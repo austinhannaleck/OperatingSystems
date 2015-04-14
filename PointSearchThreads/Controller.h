@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "utils.h"
+#include <vector>
 
 class Controller
 {
@@ -9,10 +10,11 @@ class Controller
 public:
 	Controller();
 	Point getRefPoint();
+	void setRefPoint(int x, int y) { refPoint.x = x; refPoint.y = y; };
 	Point* getAllPoints();
 	void calculatePoints(int& process, package * pBuff, int& c);
 	
-	Point closestPoints[100];
+	vector<Point> closest;
 	
 	void getUserInput();
 	void generatePoints();

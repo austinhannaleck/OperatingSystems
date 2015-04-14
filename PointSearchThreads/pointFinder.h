@@ -1,6 +1,11 @@
 #ifndef POINTFINDER_H
 #define POINTFINDER_H
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 struct Point
 {
 	int x;
@@ -11,7 +16,8 @@ class pointFinder
 {
 public:
 	void getUserInput();
-	//generate points
+	vector<Point> closest;
+	void generatePoints();
 	//get refPoint
 	//getAllPoints
 	//closest point
@@ -20,7 +26,8 @@ private:
 	int numPoints;
 	Point ref;
 	Point points[5000];
-	Point closest;
+	Point allPoints[500000];
+	//Point closest;
 
 };
 #endif

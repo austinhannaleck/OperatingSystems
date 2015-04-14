@@ -101,57 +101,57 @@ void Controller::calculatePoints(int& process, package * pBuff, int& c)
 	}
 }
 
-int main()
-{
-	Controller c;
-	c.getUserInput();
+// int main()
+// {
+// 	Controller c;
+// 	c.getUserInput();
 
-	//create a shared structure and seg_id for each process
-	package shared[10];
-	int segment_id[100];
-	package * pBuff = NULL;
-	int size = sizeof(shared[0]);
+// 	//create a shared structure and seg_id for each process
+// 	package shared[10];
+// 	int segment_id[100];
+// 	package * pBuff = NULL;
+// 	int size = sizeof(shared[0]);
 
-	//create spot in shared memory, and write data
-	for(int i = 0; i < 100; i++)
-	{
-		segment_id[i] = shmget(IPC_PRIVATE, size, S_IRUSR | S_IWUSR);
-		pBuff = (package *) shmat(segment_id[i], NULL, 0);
-		pBuff->numPoints = 5000;
-		pBuff->ref.x = c.getRefPoint().x;
-		pBuff->ref.y = c.getRefPoint().y;
-		int count(0);
-		c.calculatePoints(i, pBuff, count);
+// 	//create spot in shared memory, and write data
+// 	for(int i = 0; i < 100; i++)
+// 	{
+// 		segment_id[i] = shmget(IPC_PRIVATE, size, S_IRUSR | S_IWUSR);
+// 		pBuff = (package *) shmat(segment_id[i], NULL, 0);
+// 		pBuff->numPoints = 5000;
+// 		pBuff->ref.x = c.getRefPoint().x;
+// 		pBuff->ref.y = c.getRefPoint().y;
+// 		int count(0);
+// 		c.calculatePoints(i, pBuff, count);
 
-		char arg[10];
-		sprintf(arg, "%d", segment_id[i]);//arg contains segment id
-		forkChild(arg);
-		wait(NULL);
-	}
+// 		char arg[10];
+// 		sprintf(arg, "%d", segment_id[i]);//arg contains segment id
+// 		forkChild(arg);
+// 		wait(NULL);
+// 	}
 
-	//add the 100 points to closest[]
-	for(int i = 0; i < 100; i++)
-	{
-		package * pBuff = (package *) shmat(segment_id[i], NULL, 0);
+// 	//add the 100 points to closest[]
+// 	for(int i = 0; i < 100; i++)
+// 	{
+// 		package * pBuff = (package *) shmat(segment_id[i], NULL, 0);
 
-		c.closestPoints[i] = pBuff->closest;
-	}
+// 		c.closestPoints[i] = pBuff->closest;
+// 	}
 
-	//calculate closest point
-	double distance = numeric_limits<double>::max();
-	Point smallest;
+// 	//calculate closest point
+// 	double distance = numeric_limits<double>::max();
+// 	Point smallest;
 
-	for(int i = 0; i < 100; i++)
-	{
-		double test = utils::calculateDistance(c.closestPoints[i], c.getRefPoint());
-		if(test < distance)
-		{
-			distance = test;
-			smallest = c.closestPoints[i];
-		}
-	}
+// 	for(int i = 0; i < 100; i++)
+// 	{
+// 		double test = utils::calculateDistance(c.closestPoints[i], c.getRefPoint());
+// 		if(test < distance)
+// 		{
+// 			distance = test;
+// 			smallest = c.closestPoints[i];
+// 		}
+// 	}
 
-	cout << "The closest point is " << smallest.x << " " << smallest.y <<
-		" with a distance of " << distance << endl;
+// 	cout << "The closest point is " << smallest.x << " " << smallest.y <<
+// 		" with a distance of " << distance << endl;
 
-}
+// }

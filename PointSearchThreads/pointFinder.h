@@ -15,18 +15,19 @@ struct Point
 class pointFinder
 {
 public:
+	pointFinder(){};
 	void getUserInput();
 	vector<Point> closest;
 	void generatePoints();
-	//get refPoint
+	Point getRefPoint() { return ref; };
+	Point ref;
+	Point allPoints[500000];
 	//getAllPoints
 	//closest point
 
 private:
 	int numPoints;
-	Point ref;
-	Point points[5000];
-	Point allPoints[500000];
+	
 	//Point closest;
 
 };

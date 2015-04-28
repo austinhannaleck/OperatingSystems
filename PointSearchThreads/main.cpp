@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector<Point> closer;
+vector<Point> closest;
 
 struct Params
 {
@@ -22,14 +22,12 @@ double calculateDistance(Point a, Point b)
 	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
-void * findClosestPoint(void * info)//void can take any parameter, return any type
+void * findClosestPoint(void * info)
 {
 	Params * pParams = (Params *) info;
 
 	pointFinder& pFinder = pParams->p;
 	int index = pParams->index;
-
-	cout << index << endl;
 	
 	Point smallest;
 	double distance = numeric_limits<double>::max();
@@ -42,13 +40,11 @@ void * findClosestPoint(void * info)//void can take any parameter, return any ty
 		{
 			distance = test;
 			smallest = pFinder.allPoints[i];	
-			cout << distance << endl;
 		}
 	}
 
-	//cout << distance << endl;
-	//pFinder.closest.push_back(smallest);
-	closer.push_back(smallest);
+	//add smallest point to closest
+	closest.push_back(smallest);
 	
 	return NULL;
 }
@@ -78,6 +74,7 @@ int main()
 	finder.generatePoints();
 	finder.getUserInput();
 
+	//create threads
 	for(int i = 0; i < 100; i++)
 	{
 		Params params;
@@ -92,7 +89,6 @@ int main()
 		pthread_join(tid, NULL);		
 	}
 
-	cout << closer.size() << endl;
-
-	findClosest(closer, finder);
+	//find closest point from vector of 100 closest points
+	findClosest(closest, finder);
 }

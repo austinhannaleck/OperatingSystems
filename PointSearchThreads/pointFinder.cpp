@@ -7,7 +7,7 @@ void pointFinder::getUserInput()
 {
 	int x, y;
 	
-	cout << "\nThis program finds the point closest to a user made point" <<
+	cout << "\nThis program finds the point closest to a user made reference point " <<
 		"on a 1000x1000 grid." << endl;
 
 	cout << "\nEnter the X coordinate of your point: ";

@@ -22,13 +22,9 @@ public:
 	Point getRefPoint() { return ref; };
 	Point ref;
 	Point allPoints[500000];
-	//getAllPoints
-	//closest point
 
 private:
 	int numPoints;
-	
-	//Point closest;
 
 };
 #endif
